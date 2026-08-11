@@ -9,8 +9,10 @@ const {
   REST,
   Routes,
   SlashCommandBuilder,
+  PermissionFlagsBits,
 } = require("discord.js");
 const config = require("./config.js");
+const ticketSystem = require("./ticketSystem.js");
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds],
@@ -21,6 +23,14 @@ const commands = [
   new SlashCommandBuilder()
     .setName("rolemenu")
     .setDescription("Išsiunčia žinutę su mygtukais rolėms gauti"),
+  new SlashCommandBuilder()
+    .setName("setupticket")
+    .setDescription("Išsiunčia ticket sistemos žinutę (tik administratoriams)")
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+  new SlashCommandBuilder()
+    .setName("setupmigracija")
+    .setDescription("Išsiunčia migracijos žinutę (tik administratoriams)")
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 ].map((c) => c.toJSON());
 
 async function registerCommands() {
@@ -74,7 +84,39 @@ client.on("interactionCreate", async (interaction) => {
     return;
   }
 
-  // Mygtuko paspaudimas
+  // /setupticket komanda
+  if (interaction.isChatInputCommand() && interaction.commandName === "setupticket") {
+    const embed = ticketSystem.buildTicketSetupEmbed(client);
+    await interaction.reply({ embeds: [embed], components: [ticketSystem.buildTicketDropdownRow()] });
+    return;
+  }
+
+  // /setupmigracija komanda
+  if (interaction.isChatInputCommand() && interaction.commandName === "setupmigracija") {
+    const embed = ticketSystem.buildMigrationSetupEmbed();
+    await interaction.reply({ embeds: [embed], components: [ticketSystem.buildMigrationButtonRow()] });
+    return;
+  }
+
+  // Ticket kategorijos pasirinkimas (select menu)
+  if (interaction.isStringSelectMenu() && interaction.customId === "ticket_category_select") {
+    await ticketSystem.handleTicketCategorySelect(interaction);
+    return;
+  }
+
+  // Migracijos mygtukas
+  if (interaction.isButton() && interaction.customId === "start_migration_btn") {
+    await ticketSystem.handleMigrationButton(interaction);
+    return;
+  }
+
+  // Ticket uždarymo mygtukas
+  if (interaction.isButton() && interaction.customId === "close_ticket_btn") {
+    await ticketSystem.handleCloseTicket(interaction);
+    return;
+  }
+
+  // Mygtuko paspaudimas (rolių priskyrimas)
   if (interaction.isButton() && interaction.customId.startsWith("role_")) {
     const roleId = interaction.customId.replace("role_", "");
     const member = interaction.member;

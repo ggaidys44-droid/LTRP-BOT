@@ -63,6 +63,56 @@ Pasirodys žinutė su mygtukais — paspaudus mygtuką, vartotojas iškart gauna
 
 ---
 
+## TICKET SISTEMA
+
+Botas taip pat turi ticket (pagalbos bilietų) sistemą.
+
+### Papildomi Variables Railway'uje
+
+Be `DISCORD_TOKEN`, `CLIENT_ID`, `GUILD_ID`, pridėkite dar:
+
+| Kintamasis | Ką įrašyti |
+|---|---|
+| `TICKET_CATEGORY_ID` | Kategorijos, kurioje kursis ticket kanalai, ID |
+| `SUPPORT_ROLE_ID` | Rolės (pvz. "Staff"), kuri matys ticket'us, ID |
+| `LOG_CHANNEL_ID` | Kanalo, kur bus siunčiami uždarytų ticket'ų transkriptai, ID |
+| `MIGRATION_CATEGORY_ID` | (nebūtina) atskira kategorija migracijos bilietams |
+
+Visus ID gaunate taip pat, kaip aprašyta 1 žingsnyje aukščiau (Kūrėjo režimas → dešiniu pelės klavišu → "Kopijuoti ID"), tik vietoj rolės spauskite ant kategorijos ar kanalo.
+
+### Boto teisės
+
+Developer Portal → OAuth2 → URL Generator scope'uose/permissions papildomai reikės:
+**Manage Channels** (kad botas galėtų kurti/trinti ticket kanalus).
+
+Jei botas jau pridėtas be šios teisės — sugeneruokite nuorodą iš naujo su šia teise pažymėta ir pakvieskite dar kartą (nereikia trinti boto, Discord tik atnaujins teises).
+
+### Naudojimas
+
+Administratorius kanale parašo:
+
+```
+/setupticket
+```
+→ išsiunčia žinutę su kategorijų sąrašu (dropdown meniu), iš kurio vartotojai renkasi ir sukuria sau ticket kanalą.
+
+```
+/setupmigracija
+```
+→ išsiunčia žinutę su mygtuku "Pradėti migraciją" naujiems žaidėjams.
+
+Kiekviename sukurtame ticket/migracijos kanale bus mygtukas **"🔒 Uždaryti Bilietą"** — paspaudus jį, kanalas ištrinamas, o pokalbio transkriptas (.txt failas) išsiunčiamas į `LOG_CHANNEL_ID` nurodytą kanalą.
+
+### Dažniausios ticket sistemos klaidos
+
+| Problema | Sprendimas |
+|---|---|
+| "Klaida: Railway Variables nepilnai užpildyti" | Patikrinkite, ar `TICKET_CATEGORY_ID` ir `SUPPORT_ROLE_ID` įrašyti Railway Variables |
+| "Bilietų kategorija nerasta" | ID priklauso ne tam serveriui — nukopijuokite iš naujo tame serveryje, kur naudojate komandą |
+| Botas negali sukurti kanalo | Įsitikinkite, kad pridėjote **Manage Channels** teisę (žr. aukščiau) |
+
+---
+
 ### Dažniausios klaidos
 
 | Problema | Sprendimas |

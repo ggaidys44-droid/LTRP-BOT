@@ -11,12 +11,17 @@
 module.exports = {
   roles: [
     {
-      label: "GYVENTOJAS",
-      roleId: "1480917669967429814",
+      label: "Rolė 1",
+      roleId: "PASKITE_ROLES_ID_CIA",
       style: "Primary",
       emoji: "🎮",
     },
-
+    {
+      label: "Rolė 2",
+      roleId: "PASKITE_ROLES_ID_CIA",
+      style: "Success",
+      emoji: "🎨",
+    },
   ],
 
   // Žinutės, kuri rodys mygtukus, tekstas ir antraštė
