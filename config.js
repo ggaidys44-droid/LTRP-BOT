@@ -11,14 +11,14 @@
 module.exports = {
   roles: [
     {
-      label: "Rolė 1",
-      roleId: "PASKITE_ROLES_ID_CIA",
+      label: "GYVENTOJAS",
+      roleId: "1480917669967429814",
       style: "Primary",
       emoji: "🎮",
     },
     {
-      label: "Rolė 2",
-      roleId: "PASKITE_ROLES_ID_CIA",
+      label: "PING",
+      roleId: "1515826578020634765",
       style: "Success",
       emoji: "🎨",
     },
