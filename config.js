@@ -16,12 +16,7 @@ module.exports = {
       style: "Primary",
       emoji: "🎮",
     },
-    {
-      label: "PING",
-      roleId: "1515826578020634765",
-      style: "Success",
-      emoji: "🎨",
-    },
+
   ],
 
   // Žinutės, kuri rodys mygtukus, tekstas ir antraštė
